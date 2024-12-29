@@ -1,0 +1,79 @@
+.quick-stats {
+  margin-bottom: 10px;
+}
+
+.quick-stats td {
+  padding-right: 25px;
+}
+
+.pokeball {
+  margin-right: 5px;
+  width: 12px;
+  height: 12px;
+}
+
+.diamond {
+  margin-right: 5px;
+  width: 12px;
+  height: 12px;
+  fill: black;
+}
+
+.star {
+  margin-right: 5px;
+  width: 12px;
+  height: 12px;
+  fill: black;
+}
+
+.crown {
+  margin-right: 5px;
+  width: 12px;
+  height: 12px;
+  fill: black;
+}
+
+.pokemon-table {
+  width: auto;
+
+  font-size: 16px;
+  text-align: left;
+
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
+
+  border: 1.5px solid black;
+  color: black;
+}
+
+
+.pokemon-table th {
+  padding-left: 20px;
+  padding-right: 20px;
+
+  border-bottom: 1.5px solid black;
+
+  background-color: rgb(225, 225, 225);
+}
+
+.pokemon-table td {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.pokemon-table tr.Charizard {
+  background-color: rgb(255, 225, 225);
+  color: rgb(255, 50, 50);
+}
+
+.pokemon-table tr.Pikachu {
+  color: rgb(255, 120, 0); 
+  background-color: rgb(255, 255, 200); 
+}
+
+.pokemon-table tr.Mewtwo {
+  color: rgb(205, 0, 2255); 
+  background-color: rgb(255, 205, 255); 
+}

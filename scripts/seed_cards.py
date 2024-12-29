@@ -5,8 +5,13 @@ import boto3
 import sys
 
 from botocore.exceptions import BotoCoreError, ClientError
+from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
+
+class ExpansionType(Enum):
+    A1 = "Genetix Apex"
+    A1A = "Mythical Island"
 
 class PackType(Enum):
     CHARIZARD = "Charizard"
@@ -26,128 +31,128 @@ class RarityType(Enum):
 
 class CharizardRarityRates(Enum):
     DIAMOND_1 = {
-        "card_1_3": Decimal('0.02'),
-        "card_4": Decimal('0'),
-        "card_5": Decimal('0')
+        "card1To3": Decimal('0.02'),
+        "card4": Decimal('0'),
+        "card5": Decimal('0')
     }
     DIAMOND_2 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.02571'),
-        "card_5": Decimal('0.01714')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.02571'),
+        "card5": Decimal('0.01714')
     }
     DIAMOND_3 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00357'),
-        "card_5": Decimal('0.01429')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00357'),
+        "card5": Decimal('0.01429')
     }
     DIAMOND_4 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00333'),
-        "card_5": Decimal('0.01333')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00333'),
+        "card5": Decimal('0.01333')
     }
     STAR_1 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00322'),
-        "card_5": Decimal('0.01286')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00322'),
+        "card5": Decimal('0.01286')
     }
     STAR_2 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.0005'),
-        "card_5": Decimal('0.002')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.0005'),
+        "card5": Decimal('0.002')
     }
     STAR_3 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00222'),
-        "card_5": Decimal('0.00888')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00222'),
+        "card5": Decimal('0.00888')
     }
     CROWN_1 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00013'),
-        "card_5": Decimal('0.00053')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00013'),
+        "card5": Decimal('0.00053')
     }
 
 class MewtwoRarityRates(Enum):
     DIAMOND_1 = {
-        "card_1_3": Decimal('0.02'),
-        "card_4": Decimal('0'),
-        "card_5": Decimal('0')
+        "card1To3": Decimal('0.02'),
+        "card4": Decimal('0'),
+        "card5": Decimal('0')
     }
     DIAMOND_2 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.02571'),
-        "card_5": Decimal('0.01714')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.02571'),
+        "card5": Decimal('0.01714')
     }
     DIAMOND_3 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00357'),
-        "card_5": Decimal('0.01429')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00357'),
+        "card5": Decimal('0.01429')
     }
     DIAMOND_4 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00333'),
-        "card_5": Decimal('0.01333')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00333'),
+        "card5": Decimal('0.01333')
     }
     STAR_1 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00322'),
-        "card_5": Decimal('0.01286')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00322'),
+        "card5": Decimal('0.01286')
     }
     STAR_2 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00056'),
-        "card_5": Decimal('0.00222')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00056'),
+        "card5": Decimal('0.00222')
     }
     STAR_3 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00222'),
-        "card_5": Decimal('0.00888')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00222'),
+        "card5": Decimal('0.00888')
     }
     CROWN_1 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00013'),
-        "card_5": Decimal('0.00053')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00013'),
+        "card5": Decimal('0.00053')
     }
 
 class PikachuRarityRates(Enum):
     DIAMOND_1 = {
-        "card_1_3": Decimal('0.02'),
-        "card_4": Decimal('0'),
-        "card_5": Decimal('0')
+        "card1To3": Decimal('0.02'),
+        "card4": Decimal('0'),
+        "card5": Decimal('0')
     }
     DIAMOND_2 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.02571'),
-        "card_5": Decimal('0.01714')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.02571'),
+        "card5": Decimal('0.01714')
     }
     DIAMOND_3 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00357'),
-        "card_5": Decimal('0.01429')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00357'),
+        "card5": Decimal('0.01429')
     }
     DIAMOND_4 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00333'),
-        "card_5": Decimal('0.01333')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00333'),
+        "card5": Decimal('0.01333')
     }
     STAR_1 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00322'),
-        "card_5": Decimal('0.01286')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00322'),
+        "card5": Decimal('0.01286')
     }
     STAR_2 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.0005'),
-        "card_5": Decimal('0.002')  
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.0005'),
+        "card5": Decimal('0.002')  
     }
     STAR_3 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00222'),
-        "card_5": Decimal('0.00888')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00222'),
+        "card5": Decimal('0.00888')
     }
     CROWN_1 = {
-        "card_1_3": Decimal('0'),
-        "card_4": Decimal('0.00013'),
-        "card_5": Decimal('0.00053')
+        "card1To3": Decimal('0'),
+        "card4": Decimal('0.00013'),
+        "card5": Decimal('0.00053')
     }
 
 def validate_pack_type(value):
@@ -173,22 +178,31 @@ def main(args):
         print("Unknown command. Use --help for usage details.")
 
 def add(card_id, name, pack, rarity):
+    expansion_id = card_id.split('-')[0].strip()
+    current_time = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+
     item = {
-        "card_id": card_id,
-        "expansion_id": card_id.split('-')[0],
+        "id": card_id,
+        "expansion": {
+            "id": expansion_id,
+            "name": ExpansionType[expansion_id].value,
+            "pack": pack.value,
+            "rates": {
+                PackType.CHARIZARD: CharizardRarityRates,
+                PackType.MEWTWO: MewtwoRarityRates,
+                PackType.PIKACHU: PikachuRarityRates
+            }.get(pack, CharizardRarityRates)[rarity.name].value
+        },
         "name": name,
-        "pack": pack.value,
         "rarity": rarity.value,
-        "rates": {
-            PackType.CHARIZARD: CharizardRarityRates,
-            PackType.MEWTWO: MewtwoRarityRates,
-            PackType.PIKACHU: PikachuRarityRates
-        }.get(pack, CharizardRarityRates)[rarity.name].value
+        # Required
+        "createdAt": current_time,
+        "updatedAt": current_time
     }
 
     try:
         dynamodb = boto3.resource("dynamodb")
-        table = dynamodb.Table("cards")
+        table = dynamodb.Table("Cards-drk5lskwtje4zjgcchpqfybbya-NONE")
         table.put_item(Item=item)
         print(f"Successfully added {name} to the respective Deck Lab USA DynamoDB table.")
     except (BotoCoreError, ClientError) as e:
