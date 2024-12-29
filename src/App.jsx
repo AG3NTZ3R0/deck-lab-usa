@@ -15,6 +15,7 @@ import outputs from "../amplify_outputs.json";
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
  */
+import Cards from './Cards';
 
 Amplify.configure(outputs);
 const client = generateClient({
@@ -68,6 +69,7 @@ export default function App() {
           >
             <View>
               <Heading level="3">{userprofile.email}</Heading>
+              <Cards />
             </View>
           </Flex>
         ))}
